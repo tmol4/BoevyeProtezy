@@ -8,16 +8,15 @@ public class Notification : MonoBehaviour
 {
     [SerializeField] TMP_Text Text;
     [SerializeField] Image Bar;
-
-    private double endTime;
-    private double timerTime;
-    private KeyCode key;
+    double duration;
+    double endTime;
+    KeyCode key;
 
     private event Action<bool> onResult;
-    public void Init(string message, KeyCode key, double timerTime, Action<bool> action)
+    public void Init(double duration, KeyCode key, string message, Action<bool> action)
     {
-        endTime = AudioSettings.dspTime + timerTime;
-        this.timerTime = timerTime;
+        this.duration = duration;
+        this.endTime = AudioSettings.dspTime + duration;
         this.key = key;
         Text.text = message;
         onResult += action;
@@ -26,8 +25,7 @@ public class Notification : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        double time = AudioSettings.dspTime;
-        double remainingTime = endTime - time;
+        double remainingTime = endTime - AudioSettings.dspTime;
         if (remainingTime <= 0)
         {
             onResult(false);
@@ -38,6 +36,6 @@ public class Notification : MonoBehaviour
             onResult(true);
             Destroy(gameObject);
         }
-        Bar.fillAmount = (float)(remainingTime / timerTime);
+        Bar.fillAmount = (float)(remainingTime / duration);
     }
 }
