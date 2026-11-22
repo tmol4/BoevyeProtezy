@@ -95,7 +95,7 @@ public class NotificationTester : MonoBehaviour
             notification.Init(content.endTime - content.startTime, content.key, content.message, Void);
         }
 
-        while (marksQueue.Count != 0 && marksQueue.Peek().clickTime <= AudioSettings.dspTime - musicStartTime + 1)
+        while (marksQueue.Count != 0 && marksQueue.Peek().clickTime <= AudioSettings.dspTime - musicStartTime + 3)
         {
             MarkContent content = marksQueue.Dequeue();
 
