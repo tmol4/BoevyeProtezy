@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Novel_manager : MonoBehaviour
@@ -407,5 +408,11 @@ public class Novel_manager : MonoBehaviour
         {
             perexod.text = "Приступим к исполнению";
         }
+
+        // Пауза, чтобы игрок успел прочитать надпись на чёрном экране
+        yield return new WaitForSeconds(2.0f);
+
+        // Загрузка сцены с индексом 1
+        SceneManager.LoadScene(1);
     }
 }
