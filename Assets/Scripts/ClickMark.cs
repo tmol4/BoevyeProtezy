@@ -16,6 +16,10 @@ public class ClickMark : MonoBehaviour
         this.hitTime = hitTime;
         startScale = (double)approachCircleTransform.localScale.x;
     }
+    public double DeltaTime()
+    {
+        return hitTime - AudioSettings.dspTime;  
+    }
 
     void Update()
     {

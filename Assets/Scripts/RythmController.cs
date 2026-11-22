@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TMPro;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -26,6 +28,10 @@ public class NotificationTester : MonoBehaviour
     [SerializeField] Transform d;
     [SerializeField] Transform e;
     [SerializeField] Transform f;
+
+    [SerializeField] TMP_Text scoreBox;
+    int score = 0;
+
 
     double musicStartTime;
 
@@ -84,6 +90,8 @@ public class NotificationTester : MonoBehaviour
 
     void Update()
     {
+        scoreBox.text = score.ToString();
+
         if (!audioSource.isPlaying)
             return;
 
@@ -180,6 +188,18 @@ public class NotificationTester : MonoBehaviour
                     isHitted = true;
                     Debug.Log("hitted UI mark!");
 
+                    double dTime = Math.Abs(targetMark.DeltaTime());
+
+                    if (dTime <= 0.05)
+                        score += 500;
+                    else if (dTime <= 0.10)
+                        score += 100;
+                    else if (dTime <= 0.20)
+                        score += 50;
+                    else
+                        score -= 100;
+
+
                     activeMarksQueue.Dequeue();
                     Destroy(targetMark.gameObject);
                     break;
@@ -189,11 +209,19 @@ public class NotificationTester : MonoBehaviour
             if (!isHitted)
             {
                 Debug.Log("missed UI mark!");
+                score -= 200;
             }
         }
     }
     void Void(bool isButtonPressed)
     {
-        
+        if (isButtonPressed)
+        {
+            score += 500;
+        }
+        else
+        {
+            score -= 1000;
+        }
     }
 }
