@@ -254,15 +254,20 @@ public class Novel_manager : MonoBehaviour
 
     void ActivateDialogueChoices(string opt1, string opt2)
     {
+        // 1. Обязательно гасим печать прошлого текста и стираем его
+        if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+        isTyping = false;
+        if (dialogueText != null) dialogueText.text = "";
+
         isChoiceActive = true;
-        showText = true;
-        dialoguePanel.SetActive(true);
+        showText = false;
+        
+        // 2. Выключаем текстовую панель, оставляя только кнопки выбора
+        if (dialoguePanel != null) dialoguePanel.SetActive(false);
         if (dialogueChoicePanel != null) dialogueChoicePanel.SetActive(true);
 
         option1Text.text = opt1;
         option2Text.text = opt2;
-
-        StartDialogueTyping(dialogues[scene]);
     }
 
     // --- КНОПКИ ВЫБОРА РЕПЛИК ---
